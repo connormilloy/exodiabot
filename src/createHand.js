@@ -2,7 +2,7 @@ const deck = require('./deck.json');
 const { createCanvas, loadImage, Image } = require('canvas');
 const fs = require('fs');
 
-const generateHand = () => {
+const generateHand = async () => {
     const hand = [];
 
     const shuffledDeck = deck
@@ -15,11 +15,13 @@ const generateHand = () => {
         shuffledDeck.shift();
     }
 
-    createHandImage(hand);
+    return hand;
 }
 
-const createHandImage = hand => {
-    return new Promise((resolve, reject) => {
+const createHandImage = () => {
+    return new Promise(async (resolve, reject) => {
+        const hand = await generateHand();
+
         const canvas = createCanvas(1000, 300);
         const ctx = canvas.getContext('2d');
     
@@ -48,4 +50,4 @@ const createHandImage = hand => {
     })
 }
 
-generateHand();
+exports.createHandImage = createHandImage;
