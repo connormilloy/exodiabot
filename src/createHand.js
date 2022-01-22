@@ -19,25 +19,33 @@ const generateHand = () => {
 }
 
 const createHandImage = hand => {
-    const canvas = createCanvas(1000, 300);
-    const ctx = canvas.getContext('2d');
+    return new Promise((resolve, reject) => {
+        const canvas = createCanvas(1000, 300);
+        const ctx = canvas.getContext('2d');
+    
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 900, 400);
+    
+        let x = 0;
+    
+        for(card of hand){
+            const img = new Image();
+            img.onload = () => ctx.drawImage(img, x, 0, 200, 300);
+            img.onerror = err => { reject(err); throw err; }
+            img.src = `./images/${card}.png`;
+    
+            x += 200;
+    
+            const image = canvas.toBuffer('image/png');
 
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, 900, 400);
-
-    let x = 0;
-
-    for(card of hand){
-        const img = new Image();
-        img.onload = () => ctx.drawImage(img, x, 0, 200, 300);
-        img.onerror = err => { throw err }
-        img.src = `./images/${card}.png`;
-
-        x += 200;
-
-        const image = canvas.toBuffer('image/png');
-        fs.writeFileSync('../hand.png', image);
-    }
+            try{
+                fs.writeFileSync('../hand.png', image);
+                resolve();
+            } catch(err) {
+                reject(err);
+            }
+        }
+    })
 }
 
 generateHand();
