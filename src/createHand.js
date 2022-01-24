@@ -34,7 +34,7 @@ const createHandImage = () => {
             const img = new Image();
             img.onload = () => ctx.drawImage(img, x, 0, 200, 300);
             img.onerror = err => { reject(err); throw err; }
-            img.src = `./images/${card}.png`;
+            img.src = `./src/images/${card}.png`;
     
             x += 200;
         }
