@@ -37,15 +37,15 @@ const createHandImage = () => {
             img.src = `./images/${card}.png`;
     
             x += 200;
-    
-            const image = canvas.toBuffer('image/png');
+        }
 
-            try{
-                fs.writeFileSync('../hand.png', image);
-                resolve();
-            } catch(err) {
-                reject(err);
-            }
+        const image = canvas.toBuffer('image/png');
+
+        try{
+            fs.writeFileSync('../hand.png', image);
+            resolve();
+        } catch(err) {
+            reject(err);
         }
     })
 }
